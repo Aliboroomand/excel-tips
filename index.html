@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>سایت ترفندهای اکسل</title>
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+  <style>
+    /* فونت وزیر */
+    body {
+      font-family: 'Vazir', Tahoma, sans-serif;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+      background: #f9fbfc;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #005ea3;
+      color: white;
+      padding: 16px 24px;
+      font-weight: 700;
+      font-size: 28px;
+      text-align: center;
+      box-shadow: 0 3px 8px rgb(0 94 163 / 0.3);
+    }
+    nav {
+      background: #0078d7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      padding: 8px 0;
+      box-shadow: 0 3px 8px rgb(0 94 163 / 0.25);
+      user-select: none;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a, nav button {
+      color: white;
+      font-weight: 600;
+      font-size: 17px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px 18px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+    nav a:hover, nav button:hover {
+      background-color: #005ea3;
+    }
+    /* منوی کشویی ترفندها */
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 6px 15px rgb(0 94 163 / 0.2);
+      display: none;
+      min-width: 150px;
+      z-index: 1100;
+      user-select: auto;
+    }
+    .dropdown.show {
+      display: block;
+    }
+    .dropdown a {
+      display: block;
+      padding: 12px 16px;
+      color: #005ea3;
+      font-weight: 500;
+      border-bottom: 1px solid #e6eaf0;
+      text-align: right;
+      transition: background-color 0.2s ease;
+      white-space: nowrap;
+    }
+    .dropdown a:last-child {
+      border-bottom: none;
+    }
+    .dropdown a:hover {
+      background-color: #e3f0fe;
+    }
+    /* کانتینر اصلی */
+    main {
+      flex-grow: 1;
+      max-width: 840px;
+      margin: 35px auto 50px;
+      background: white;
+      padding: 28px 32px 36px;
+      border-radius: 10px;
+      box-shadow: 0 4px 25px rgb(0 94 163 / 0.1);
+      min-height: 65vh;
+      outline-offset: 3px;
+    }
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    /* فرمول‌ها */
+    .formula {
+      background: #eef6fb;
+      border: 1.6px solid #b2d4f1;
+      padding: 13px 18px;
+      margin: 16px 0 8px;
+      font-family: monospace;
+      font-size: 18px;
+      border-radius: 7px;
+      user-select: all;
+      direction: ltr;
+      color: #004b8d;
+      box-shadow: inset 0 0 4px #a6c9e8;
+    }
+    .btn {
+      display: inline-block;
+      background: #0078d7;
+      color: white;
+      border: none;
+      padding: 9px 20px;
+      margin-bottom: 14px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 15px;
+      user-select: none;
+      transition: background-color 0.25s ease;
+      font-weight: 600;
+    }
+    .btn:hover {
+      background: #005ea3;
+    }
+    .desc {
+      display: none;
+      margin-bottom: 22px;
+      padding: 14px 20px;
+      background: #e7f0fe;
+      border-left: 6px solid #0078d7;
+      font-size: 16px;
+      color: #1e3e6e;
+      border-radius: 0 7px 7px 0;
+      line-height: 1.5;
+      user-select: text;
+    }
+    /* درباره ما و تماس با ما */
+    #about p, #home p {
+      font-size: 17px;
+      line-height: 1.65;
+      color: #2b2b2b;
+      margin-bottom: 15px;
+    }
+    #home {
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: 600;
+      font-size: 20px;
+      color: #005ea3;
+      padding: 0 16px;
+      user-select: none;
+    }
+    #home h2 {
+      font-size: 34px;
+      margin-bottom: 22px;
+      font-weight: 800;
+    }
+    /* فرم تماس */
+    form label {
+      display: block;
+      margin-top: 16px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #005ea3;
+      user-select: text;
+    }
+    form input[type="text"], form textarea {
+      width: 100%;
+      padding: 11px 14px;
+      margin-top: 6px;
+      font-size: 16px;
+      font-family: Vazir, Tahoma, sans-serif;
+      border-radius: 8px;
+      border: 1.3px solid #c0c8d7;
+      resize: vertical;
+      color: #222;
+      user-select: text;
+      box-sizing: border-box;
+      outline-offset: 3px;
+      outline-color: #0078d7;
+      transition: border-color 0.25s ease;
+    }
+    form input[type="text"]:focus, form textarea:focus {
+      border-color: #005ea3;
+    }
+    form textarea {
+      min-height: 110px;
+    }
+    form button {
+      margin-top: 24px;
+      background: #0078d7;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      padding: 14px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 0 8px rgb(0 94 163 / 0.3);
+    }
+    form button:hover {
+      background: #005ea3;
+    }
+    #formResponse {
+      margin-top: 20px;
+      font-size: 17px;
+      color: green;
+      min-height: 26px;
+      user-select: text;
+    }
+  </style>
+</head>
+<body>
+
+<header>سایت ترفندهای اکسل</header>
+
+<nav>
+  <a href="#home" class="nav-link">خانه</a>
+  <button id="tipsBtn" aria-haspopup="true" aria-expanded="false">ترفندها ▼</button>
+  <a href="#about" class="nav-link">درباره ما</a>
+  <a href="#contact" class="nav-link">تماس با ما</a>
+
+  <div id="tipsDropdown" class="dropdown" role="menu" aria-label="دسته بندی ترفندها">
+    <a href="#tips-financial" class="dropdown-link" role="menuitem">مالی</a>
+    <a href="#tips-text" class="dropdown-link" role="menuitem">متنی</a>
+    <a href="#tips-logical" class="dropdown-link" role="menuitem">منطقی</a>
+  </div>
+</nav>
+
+<main>
+  <section id="home" class="active" tabindex="0" aria-label="صفحه خانه">
+    <div>
+      <h2>خوش آمدید به سایت ترفندهای اکسل</h2>
+      <p>این سایت برای شما طراحی شده تا با ترفندهای کاربردی و مفید اکسل آشنا شوید و مهارت‌های خود را در این نرم‌افزار قدرتمند بهبود دهید.</p>
+      <p>ما سعی کرده‌ایم ترفندها را به صورت دسته‌بندی شده و با توضیحات ساده ارائه کنیم تا استفاده از آنها برای همه آسان باشد.</p>
+      <p>برای شروع روی منوی «ترفندها» کلیک کنید و دسته‌بندی مورد علاقه خود را انتخاب نمایید.</p>
+    </div>
+  </section>
+
+  <!-- مالی -->
+  <section id="tips-financial" tabindex="0" aria-label="ترفندهای مالی">
+    <h2>ترفندهای مالی</h2>
+    <div>
+      <div class="formula">=SUM(A1:A10)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        جمع مقادیر محدوده A1 تا A10 را محاسبه می‌کند.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=PMT( نرخ_سود، دوره‌ها، مبلغ_وام )</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        مبلغ پرداخت قسط وام را بر اساس نرخ سود، تعداد دوره‌ها و مبلغ وام محاسبه می‌کند.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=FV( نرخ_سود، دوره‌ها، پرداخت، [مبلغ_اولیه] )</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        ارزش آینده یک سرمایه‌گذاری با نرخ سود، تعداد دوره‌ها و پرداخت‌های مشخص را محاسبه می‌کند.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=NPV( نرخ_تنزیل، جریان_وجه_نقدی_۱, جریان_وجه_نقدی_۲, ... )</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        ارزش فعلی خالص جریانات نقدی با نرخ تنزیل مشخص را محاسبه می‌کند.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=RATE( دوره‌ها، پرداخت، مبلغ_وام )</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        نرخ بهره دوره‌ای یک وام یا سرمایه‌گذاری را محاسبه می‌کند.
+      </div>
+    </div>
+  </section>
+
+  <!-- متنی -->
+  <section id="tips-text" tabindex="0" aria-label="ترفندهای متنی">
+    <h2>ترفندهای متنی</h2>
+    <div>
+      <div class="formula">=CONCATENATE(A1, " ", B1)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        ترکیب متن‌های سلول A1 و B1 با فاصله بین آنها.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=LEFT(A1, 5)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        استخراج ۵ کاراکتر اول از متن سلول A1.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=RIGHT(A1, 3)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        استخراج ۳ کاراکتر آخر از متن سلول A1.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=LEN(A1)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        محاسبه تعداد کاراکترهای متن سلول A1.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=TRIM(A1)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        حذف فاصله‌های اضافی ابتدای و انتهای متن سلول A1.
+      </div>
+    </div>
+  </section>
+
+  <!-- منطقی -->
+  <section id="tips-logical" tabindex="0" aria-label="ترفندهای منطقی">
+    <h2>ترفندهای منطقی</h2>
+    <div>
+      <div class="formula">=IF(A1>10, "بزرگتر", "کوچکتر")</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        بررسی شرط و نمایش نتیجه بر اساس آن.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=AND(A1>5, B1<20)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        بررسی اینکه همه شروط برقرار باشند.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=OR(A1=5, B1=10)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        بررسی اینکه حداقل یکی از شروط برقرار باشد.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=NOT(A1=5)</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        برعکس مقدار شرط را نشان می‌دهد.
+      </div>
+    </div>
+    <div>
+      <div class="formula">=IFERROR( فرمول , مقدار_جایگزین )</div>
+      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <div class="desc">
+        در صورت خطا، مقدار جایگزین را نمایش می‌دهد.
+      </div>
+    </div>
+  </section>
+
+  <!-- درباره ما -->
+  <section id="about" tabindex="0" aria-label="درباره ما">
+    <h2>درباره ما</h2>
+    <p>
+      این وب‌سایت به هدف ارتقاء دانش و مهارت کاربران در زمینه نرم‌افزار اکسل طراحی شده است. ما به دنبال ارائه محتواهای ساده، کاربردی و قابل فهم هستیم تا کاربران با هر سطحی بتوانند از آن بهره‌مند شوند.
+    </p>
+    <p>
+      امیدواریم این سایت بتواند به شما در یادگیری و استفاده بهتر از اکسل کمک کند و تجربه کاربری خوبی برایتان فراهم آورد.
+    </p>
+  </section>
+
+  <!-- تماس با ما -->
+  <section id="contact" tabindex="0" aria-label="تماس با ما">
+    <h2>تماس با ما</h2>
+    <form id="contactForm" onsubmit="return submitForm(event)">
+      <label for="name">نام شما:</label>
+      <input type="text" id="name" name="name" required autocomplete="name" />
+
+      <label for="email">ایمیل شما:</label>
+      <input type="text" id="email" name="email" required autocomplete="email" />
+
+      <label for="message">پیام شما:</label>
+      <textarea id="message" name="message" required></textarea>
+
+      <button type="submit">ارسال پیام</button>
+    </form>
+    <div id="formResponse" role="alert" aria-live="polite"></div>
+  </section>
+</main>
+
+<script>
+  const sections = document.querySelectorAll('main > section');
+  const navLinks = document.querySelectorAll('nav .nav-link, .dropdown-link');
+  const tipsBtn = document.getElementById('tipsBtn');
+  const tipsDropdown = document.getElementById('tipsDropdown');
+
+  // نمایش/پنهان منوی کشویی ترفندها
+  tipsBtn.addEventListener('click', () => {
+    const expanded = tipsBtn.getAttribute('aria-expanded') === 'true';
+    tipsBtn.setAttribute('aria-expanded', String(!expanded));
+    tipsDropdown.classList.toggle('show');
+  });
+
+  // بستن منو اگر کلیک بیرون بود
+  document.addEventListener('click', e => {
+    if (!tipsBtn.contains(e.target) && !tipsDropdown.contains(e.target)) {
+      tipsDropdown.classList.remove('show');
+      tipsBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // تغییر بخش فعال
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+
+      // نمایش فقط بخش انتخابی
+      sections.forEach(sec => {
+        if (sec.id === targetId) {
+          sec.classList.add('active');
+          sec.focus();
+        } else {
+          sec.classList.remove('active');
+        }
+      });
+
+      // بستن منوی کشویی ترفندها اگر باز بود
+      tipsDropdown.classList.remove('show');
+      tipsBtn.setAttribute('aria-expanded', 'false');
+
+      // اسکرول به بالا
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+
+  // نمایش/پنهان توضیحات فرمول
+  function toggleDesc(button) {
+    const desc = button.nextElementSibling;
+    if (desc.style.display === 'block') {
+      desc.style.display = 'none';
+      button.textContent = 'نمایش توضیحات';
+    } else {
+      desc.style.display = 'block';
+      button.textContent = 'پنهان کردن توضیحات';
+    }
+  }
+
+  // شبیه‌سازی ارسال فرم تماس
+  function submitForm(e) {
+    e.preventDefault();
+    const responseDiv = document.getElementById('formResponse');
+    responseDiv.textContent = '';
+    setTimeout(() => {
+      responseDiv.textContent = 'پیام شما با موفقیت ارسال شد. ممنون از تماس شما!';
+      document.getElementById('contactForm').reset();
+    }, 800);
+    return false;
+  }
+</script>
+
+</body>
+</html>
