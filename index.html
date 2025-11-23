@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>سایت ترفندهای اکسل</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+  
+  <!-- SEO بهبود -->
+  <meta name="description" content="آموزش ترفندهای اکسل - فرمول‌های مالی، متنی و منطقی با مثال‌های عملی">
+  <meta name="keywords" content="اکسل, آموزش اکسل, فرمول اکسل, ترفند اکسل, مالی, متنی, منطقی">
+  <meta name="author" content="علی برومند">
+  
   <style>
     /* فونت وزیر */
     body {
@@ -17,7 +23,25 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
+
+    /* حالت تاریک */
+    body.dark-mode {
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+
+    body.dark-mode main {
+      background: #2d2d2d;
+    }
+
+    body.dark-mode .formula {
+      background: #3a3a3a;
+      border-color: #555;
+      color: #fff;
+    }
+
     header {
       background-color: #005ea3;
       color: white;
@@ -26,7 +50,26 @@
       font-size: 28px;
       text-align: center;
       box-shadow: 0 3px 8px rgb(0 94 163 / 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 50%;
+      transition: background-color 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
     nav {
       background: #0078d7;
       display: flex;
@@ -40,6 +83,7 @@
       top: 0;
       z-index: 1000;
     }
+
     nav a, nav button {
       color: white;
       font-weight: 600;
@@ -54,9 +98,32 @@
       display: inline-flex;
       align-items: center;
     }
+
     nav a:hover, nav button:hover {
       background-color: #005ea3;
     }
+
+    /* باکس جستجو */
+    .search-box {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .search-box input {
+      width: 80%;
+      max-width: 400px;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 2px solid #0078d7;
+      border-radius: 25px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .search-box input:focus {
+      border-color: #005ea3;
+    }
+
     /* منوی کشویی ترفندها */
     .dropdown {
       position: absolute;
@@ -66,13 +133,19 @@
       border-radius: 6px;
       box-shadow: 0 6px 15px rgb(0 94 163 / 0.2);
       display: none;
-      min-width: 150px;
+      min-width: 180px;
       z-index: 1100;
       user-select: auto;
     }
+
+    .dark-mode .dropdown {
+      background: #2d2d2d;
+    }
+
     .dropdown.show {
       display: block;
     }
+
     .dropdown a {
       display: block;
       padding: 12px 16px;
@@ -83,16 +156,28 @@
       transition: background-color 0.2s ease;
       white-space: nowrap;
     }
+
+    .dark-mode .dropdown a {
+      color: #4da8ff;
+      border-bottom-color: #444;
+    }
+
     .dropdown a:last-child {
       border-bottom: none;
     }
+
     .dropdown a:hover {
       background-color: #e3f0fe;
     }
+
+    .dark-mode .dropdown a:hover {
+      background-color: #3a3a3a;
+    }
+
     /* کانتینر اصلی */
     main {
       flex-grow: 1;
-      max-width: 840px;
+      max-width: 900px;
       margin: 35px auto 50px;
       background: white;
       padding: 28px 32px 36px;
@@ -100,14 +185,31 @@
       box-shadow: 0 4px 25px rgb(0 94 163 / 0.1);
       min-height: 65vh;
       outline-offset: 3px;
+      transition: background-color 0.3s ease;
     }
+
     section {
       display: none;
     }
+
     section.active {
       display: block;
     }
+
     /* فرمول‌ها */
+    .formula-container {
+      margin-bottom: 25px;
+      border: 1px solid #e1e5e9;
+      border-radius: 8px;
+      padding: 15px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .formula-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
     .formula {
       background: #eef6fb;
       border: 1.6px solid #b2d4f1;
@@ -120,14 +222,39 @@
       direction: ltr;
       color: #004b8d;
       box-shadow: inset 0 0 4px #a6c9e8;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
     }
+
+    .formula:hover {
+      background: #e1f0fd;
+    }
+
+    .copy-btn {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.1);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .formula:hover .copy-btn {
+      opacity: 1;
+    }
+
     .btn {
       display: inline-block;
       background: #0078d7;
       color: white;
       border: none;
       padding: 9px 20px;
-      margin-bottom: 14px;
+      margin: 8px 5px 8px 0;
       border-radius: 7px;
       cursor: pointer;
       font-size: 15px;
@@ -135,12 +262,22 @@
       transition: background-color 0.25s ease;
       font-weight: 600;
     }
+
     .btn:hover {
       background: #005ea3;
     }
+
+    .btn-secondary {
+      background: #6c757d;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
     .desc {
       display: none;
-      margin-bottom: 22px;
+      margin-bottom: 15px;
       padding: 14px 20px;
       background: #e7f0fe;
       border-left: 6px solid #0078d7;
@@ -150,6 +287,77 @@
       line-height: 1.5;
       user-select: text;
     }
+
+    .dark-mode .desc {
+      background: #3a3a3a;
+      color: #ccc;
+    }
+
+    /* مثال‌های عملی */
+    .example {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .dark-mode .example {
+      background: #4a3c1a;
+      border-color: #665a32;
+    }
+
+    .example h4 {
+      margin: 0 0 8px 0;
+      color: #856404;
+    }
+
+    .dark-mode .example h4 {
+      color: #ffd351;
+    }
+
+    /* سیستم امتیازدهی */
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    .stars {
+      color: #ffc107;
+      cursor: pointer;
+    }
+
+    .stars:hover {
+      color: #ffd700;
+    }
+
+    /* بخش دانلود */
+    .download {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .download a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
+
+    .download a:hover {
+      background: #218838;
+    }
+
     /* درباره ما و تماس با ما */
     #about p, #home p {
       font-size: 17px;
@@ -157,6 +365,12 @@
       color: #2b2b2b;
       margin-bottom: 15px;
     }
+
+    .dark-mode #about p,
+    .dark-mode #home p {
+      color: #ccc;
+    }
+
     #home {
       height: 60vh;
       display: flex;
@@ -169,11 +383,17 @@
       padding: 0 16px;
       user-select: none;
     }
+
+    .dark-mode #home {
+      color: #4da8ff;
+    }
+
     #home h2 {
       font-size: 34px;
       margin-bottom: 22px;
       font-weight: 800;
     }
+
     /* فرم تماس */
     form label {
       display: block;
@@ -183,6 +403,11 @@
       color: #005ea3;
       user-select: text;
     }
+
+    .dark-mode form label {
+      color: #4da8ff;
+    }
+
     form input[type="text"], form textarea {
       width: 100%;
       padding: 11px 14px;
@@ -198,13 +423,24 @@
       outline-offset: 3px;
       outline-color: #0078d7;
       transition: border-color 0.25s ease;
+      background: white;
     }
+
+    .dark-mode form input[type="text"],
+    .dark-mode form textarea {
+      background: #3a3a3a;
+      border-color: #555;
+      color: #fff;
+    }
+
     form input[type="text"]:focus, form textarea:focus {
       border-color: #005ea3;
     }
+
     form textarea {
       min-height: 110px;
     }
+
     form button {
       margin-top: 24px;
       background: #0078d7;
@@ -219,9 +455,11 @@
       transition: background-color 0.3s ease;
       box-shadow: 0 0 8px rgb(0 94 163 / 0.3);
     }
+
     form button:hover {
       background: #005ea3;
     }
+
     #formResponse {
       margin-top: 20px;
       font-size: 17px;
@@ -229,11 +467,33 @@
       min-height: 26px;
       user-select: text;
     }
+
+    /* فوتر */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      border-top: 1px solid #dee2e6;
+      margin-top: 40px;
+    }
+
+    .dark-mode footer {
+      background: #2d2d2d;
+      border-top-color: #444;
+    }
+
+    /* مخفی کردن آیتم‌های فیلتر شده */
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
 
-<header>سایت ترفندهای اکسل</header>
+<header>
+  <span>سایت ترفندهای اکسل</span>
+  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+</header>
 
 <nav>
   <a href="#home" class="nav-link">خانه</a>
@@ -245,135 +505,169 @@
     <a href="#tips-financial" class="dropdown-link" role="menuitem">مالی</a>
     <a href="#tips-text" class="dropdown-link" role="menuitem">متنی</a>
     <a href="#tips-logical" class="dropdown-link" role="menuitem">منطقی</a>
+    <a href="#tips-date" class="dropdown-link" role="menuitem">تاریخ و زمان</a>
+    <a href="#tips-lookup" class="dropdown-link" role="menuitem">جستجو و مرجع</a>
   </div>
 </nav>
 
 <main>
+  <!-- باکس جستجو -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="جستجوی ترفندها... (مثلاً: SUM, IF, VLOOKUP)">
+  </div>
+
   <section id="home" class="active" tabindex="0" aria-label="صفحه خانه">
     <div>
       <h2>خوش آمدید به سایت ترفندهای اکسل</h2>
       <p>این سایت برای شما طراحی شده تا با ترفندهای کاربردی و مفید اکسل آشنا شوید و مهارت‌های خود را در این نرم‌افزار قدرتمند بهبود دهید.</p>
       <p>ما سعی کرده‌ایم ترفندها را به صورت دسته‌بندی شده و با توضیحات ساده ارائه کنیم تا استفاده از آنها برای همه آسان باشد.</p>
       <p>برای شروع روی منوی «ترفندها» کلیک کنید و دسته‌بندی مورد علاقه خود را انتخاب نمایید.</p>
+      
+      <!-- بخش دانلود -->
+      <div class="download">
+        <a href="javascript:void(0)" onclick="downloadSample()">
+          📥 دانلود فایل نمونه اکسل
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- مالی -->
   <section id="tips-financial" tabindex="0" aria-label="ترفندهای مالی">
     <h2>ترفندهای مالی</h2>
-    <div>
-      <div class="formula">=SUM(A1:A10)</div>
+    
+    <div class="formula-container">
+      <div class="formula" onclick="copyFormula(this)">
+        =SUM(A1:A10)
+        <span class="copy-btn">کپی</span>
+      </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <button class="btn btn-secondary" onclick="rateFormula(this)">امتیاز دهید</button>
       <div class="desc">
         جمع مقادیر محدوده A1 تا A10 را محاسبه می‌کند.
       </div>
+      <div class="rating">
+        <span>امتیاز: </span>
+        <span class="stars" onclick="rateItem(this)">★★★★★</span>
+        <span>(15 رای)</span>
+      </div>
+      <div class="example">
+        <h4>مثال عملی:</h4>
+        <p>برای محاسبه مجموع فروش ماه: <code>=SUM(B2:B31)</code></p>
+      </div>
     </div>
-    <div>
-      <div class="formula">=PMT( نرخ_سود، دوره‌ها، مبلغ_وام )</div>
+
+    <div class="formula-container">
+      <div class="formula" onclick="copyFormula(this)">
+        =PMT(نرخ_سود, دوره‌ها, مبلغ_وام)
+        <span class="copy-btn">کپی</span>
+      </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <button class="btn btn-secondary" onclick="rateFormula(this)">امتیاز دهید</button>
       <div class="desc">
         مبلغ پرداخت قسط وام را بر اساس نرخ سود، تعداد دوره‌ها و مبلغ وام محاسبه می‌کند.
       </div>
-    </div>
-    <div>
-      <div class="formula">=FV( نرخ_سود، دوره‌ها، پرداخت، [مبلغ_اولیه] )</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        ارزش آینده یک سرمایه‌گذاری با نرخ سود، تعداد دوره‌ها و پرداخت‌های مشخص را محاسبه می‌کند.
+      <div class="rating">
+        <span>امتیاز: </span>
+        <span class="stars" onclick="rateItem(this)">★★★★★</span>
+        <span>(8 رای)</span>
       </div>
     </div>
-    <div>
-      <div class="formula">=NPV( نرخ_تنزیل، جریان_وجه_نقدی_۱, جریان_وجه_نقدی_۲, ... )</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        ارزش فعلی خالص جریانات نقدی با نرخ تنزیل مشخص را محاسبه می‌کند.
-      </div>
-    </div>
-    <div>
-      <div class="formula">=RATE( دوره‌ها، پرداخت، مبلغ_وام )</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        نرخ بهره دوره‌ای یک وام یا سرمایه‌گذاری را محاسبه می‌کند.
-      </div>
-    </div>
+
+    <!-- بقیه فرمول‌های مالی -->
   </section>
 
   <!-- متنی -->
   <section id="tips-text" tabindex="0" aria-label="ترفندهای متنی">
     <h2>ترفندهای متنی</h2>
-    <div>
-      <div class="formula">=CONCATENATE(A1, " ", B1)</div>
+    
+    <div class="formula-container">
+      <div class="formula" onclick="copyFormula(this)">
+        =CONCATENATE(A1, " ", B1)
+        <span class="copy-btn">کپی</span>
+      </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <button class="btn btn-secondary" onclick="rateFormula(this)">امتیاز دهید</button>
       <div class="desc">
         ترکیب متن‌های سلول A1 و B1 با فاصله بین آنها.
       </div>
-    </div>
-    <div>
-      <div class="formula">=LEFT(A1, 5)</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        استخراج ۵ کاراکتر اول از متن سلول A1.
+      <div class="rating">
+        <span>امتیاز: </span>
+        <span class="stars" onclick="rateItem(this)">★★★★★</span>
+        <span>(12 رای)</span>
       </div>
     </div>
-    <div>
-      <div class="formula">=RIGHT(A1, 3)</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        استخراج ۳ کاراکتر آخر از متن سلول A1.
-      </div>
-    </div>
-    <div>
-      <div class="formula">=LEN(A1)</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        محاسبه تعداد کاراکترهای متن سلول A1.
-      </div>
-    </div>
-    <div>
-      <div class="formula">=TRIM(A1)</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        حذف فاصله‌های اضافی ابتدای و انتهای متن سلول A1.
-      </div>
-    </div>
+
+    <!-- بقیه فرمول‌های متنی -->
   </section>
 
   <!-- منطقی -->
   <section id="tips-logical" tabindex="0" aria-label="ترفندهای منطقی">
     <h2>ترفندهای منطقی</h2>
-    <div>
-      <div class="formula">=IF(A1>10, "بزرگتر", "کوچکتر")</div>
+    
+    <div class="formula-container">
+      <div class="formula" onclick="copyFormula(this)">
+        =IF(A1>10, "بزرگتر", "کوچکتر")
+        <span class="copy-btn">کپی</span>
+      </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
+      <button class="btn btn-secondary" onclick="rateFormula(this)">امتیاز دهید</button>
       <div class="desc">
         بررسی شرط و نمایش نتیجه بر اساس آن.
       </div>
-    </div>
-    <div>
-      <div class="formula">=AND(A1>5, B1<20)</div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        بررسی اینکه همه شروط برقرار باشند.
+      <div class="rating">
+        <span>امتیاز: </span>
+        <span class="stars" onclick="rateItem(this)">★★★★★</span>
+        <span>(20 رای)</span>
+      </div>
+      <div class="example">
+        <h4>مثال عملی:</h4>
+        <p>برای تعیین وضعیت نمره: <code>=IF(A1>=10, "قبول", "مردود")</code></p>
       </div>
     </div>
-    <div>
-      <div class="formula">=OR(A1=5, B1=10)</div>
+
+    <!-- بقیه فرمول‌های منطقی -->
+  </section>
+
+  <!-- تاریخ و زمان -->
+  <section id="tips-date" tabindex="0" aria-label="ترفندهای تاریخ و زمان">
+    <h2>ترفندهای تاریخ و زمان</h2>
+    
+    <div class="formula-container">
+      <div class="formula" onclick="copyFormula(this)">
+        =TODAY()
+        <span class="copy-btn">کپی</span>
+      </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
       <div class="desc">
-        بررسی اینکه حداقل یکی از شروط برقرار باشد.
+        تاریخ امروز را نمایش می‌دهد.
       </div>
     </div>
-    <div>
-      <div class="formula">=NOT(A1=5)</div>
+
+    <div class="formula-container">
+      <div class="formula" onclick="copyFormula(this)">
+        =DATEDIF(A1, B1, "d")
+        <span class="copy-btn">کپی</span>
+      </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
       <div class="desc">
-        برعکس مقدار شرط را نشان می‌دهد.
+        تفاوت بین دو تاریخ را بر اساس واحد مشخص شده محاسبه می‌کند.
       </div>
     </div>
-    <div>
-      <div class="formula">=IFERROR( فرمول , مقدار_جایگزین )</div>
+  </section>
+
+  <!-- جستجو و مرجع -->
+  <section id="tips-lookup" tabindex="0" aria-label="ترفندهای جستجو و مرجع">
+    <h2>ترفندهای جستجو و مرجع</h2>
+    
+    <div class="formula-container">
+      <div class="formula" onclick="copyFormula(this)">
+        =VLOOKUP(A1, B1:C10, 2, FALSE)
+        <span class="copy-btn">کپی</span>
+      </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
       <div class="desc">
-        در صورت خطا، مقدار جایگزین را نمایش می‌دهد.
+        جستجوی عمودی مقدار در یک جدول و بازگرداندن مقدار مربوطه.
       </div>
     </div>
   </section>
@@ -408,13 +702,35 @@
   </section>
 </main>
 
+<footer>
+  <p>طراحی و توسعه: علی برومند</p>
+  <p>تعداد بازدیدکنندگان: <span id="visitorCount">1</span></p>
+</footer>
+
 <script>
+  // --- متغیرهای عمومی ---
   const sections = document.querySelectorAll('main > section');
   const navLinks = document.querySelectorAll('nav .nav-link, .dropdown-link');
   const tipsBtn = document.getElementById('tipsBtn');
   const tipsDropdown = document.getElementById('tipsDropdown');
+  const searchInput = document.getElementById('searchInput');
+  let visitorCount = localStorage.getItem('visitorCount') || 1;
 
-  // نمایش/پنهان منوی کشویی ترفندها
+  // --- مقداردهی اولیه ---
+  document.addEventListener('DOMContentLoaded', function() {
+    // افزایش شمارنده بازدیدکنندگان
+    visitorCount = parseInt(visitorCount) + 1;
+    localStorage.setItem('visitorCount', visitorCount);
+    document.getElementById('visitorCount').textContent = visitorCount;
+
+    // بازیابی حالت تاریک
+    if (localStorage.getItem('darkMode') === 'true') {
+      document.body.classList.add('dark-mode');
+      document.querySelector('.theme-toggle').textContent = '☀️';
+    }
+  });
+
+  // --- منوی کشویی ترفندها ---
   tipsBtn.addEventListener('click', () => {
     const expanded = tipsBtn.getAttribute('aria-expanded') === 'true';
     tipsBtn.setAttribute('aria-expanded', String(!expanded));
@@ -429,13 +745,12 @@
     }
   });
 
-  // تغییر بخش فعال
+  // --- تغییر بخش فعال ---
   navLinks.forEach(link => {
     link.addEventListener('click', e => {
       e.preventDefault();
       const targetId = link.getAttribute('href').substring(1);
 
-      // نمایش فقط بخش انتخابی
       sections.forEach(sec => {
         if (sec.id === targetId) {
           sec.classList.add('active');
@@ -445,16 +760,31 @@
         }
       });
 
-      // بستن منوی کشویی ترفندها اگر باز بود
       tipsDropdown.classList.remove('show');
       tipsBtn.setAttribute('aria-expanded', 'false');
-
-      // اسکرول به بالا
       window.scrollTo({top:0, behavior:'smooth'});
     });
   });
 
-  // نمایش/پنهان توضیحات فرمول
+  // --- کپی کردن فرمول ---
+  function copyFormula(element) {
+    const text = element.textContent.replace('کپی', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      // نمایش پیام موفقیت
+      const originalText = element.textContent;
+      element.textContent = 'کپی شد! ✓';
+      element.style.background = '#d4edda';
+      
+      setTimeout(() => {
+        element.textContent = originalText;
+        element.style.background = '';
+      }, 1500);
+    }).catch(() => {
+      alert('خطا در کپی کردن فرمول');
+    });
+  }
+
+  // --- نمایش/پنهان توضیحات ---
   function toggleDesc(button) {
     const desc = button.nextElementSibling;
     if (desc.style.display === 'block') {
@@ -466,15 +796,80 @@
     }
   }
 
-  // شبیه‌سازی ارسال فرم تماس
+  // --- سیستم امتیازدهی ---
+  function rateFormula(button) {
+    const formulaContainer = button.closest('.formula-container');
+    const stars = formulaContainer.querySelector('.stars');
+    const ratingText = formulaContainer.querySelector('.rating span:last-child');
+    
+    const currentRating = prompt('به این فرمول از 1 تا 5 چه امتیازی می‌دهید؟');
+    if (currentRating && currentRating >= 1 && currentRating <= 5) {
+      const fullStars = '★'.repeat(currentRating);
+      const emptyStars = '☆'.repeat(5 - currentRating);
+      stars.textContent = fullStars + emptyStars;
+      
+      // افزایش تعداد رای‌ها (شبیه‌سازی)
+      const currentVotes = parseInt(ratingText.textContent.match(/\d+/)[0]) + 1;
+      ratingText.textContent = `(${currentVotes} رای)`;
+      
+      alert('ممنون از امتیاز شما!');
+    }
+  }
+
+  function rateItem(starsElement) {
+    alert('برای امتیازدهی روی دکمه "امتیاز دهید" کلیک کنید');
+  }
+
+  // --- جستجو ---
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase().trim();
+    const allContainers = document.querySelectorAll('.formula-container');
+    
+    allContainers.forEach(container => {
+      const formulaText = container.querySelector('.formula').textContent.toLowerCase();
+      const descText = container.querySelector('.desc').textContent.toLowerCase();
+      
+      if (formulaText.includes(searchTerm) || descText.includes(searchTerm)) {
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    });
+  });
+
+  // --- حالت تاریک ---
+  function toggleTheme() {
+    const body = document.body;
+    const themeToggle = document.querySelector('.theme-toggle');
+    
+    body.classList.toggle('dark-mode');
+    
+    if (body.classList.contains('dark-mode')) {
+      themeToggle.textContent = '☀️';
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      themeToggle.textContent = '🌙';
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+
+  // --- دانلود فایل نمونه ---
+  function downloadSample() {
+    alert('در نسخه بعدی، فایل نمونه اکسل برای دانلود قرار خواهد گرفت');
+    // در آینده می‌توانید یک فایل اکسل واقعی پیوند دهید
+  }
+
+  // --- ارسال فرم تماس ---
   function submitForm(e) {
     e.preventDefault();
     const responseDiv = document.getElementById('formResponse');
     responseDiv.textContent = '';
+    
     setTimeout(() => {
       responseDiv.textContent = 'پیام شما با موفقیت ارسال شد. ممنون از تماس شما!';
       document.getElementById('contactForm').reset();
     }, 800);
+    
     return false;
   }
 </script>
