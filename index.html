@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>سایت ترفندهای اکسل</title>
+  <title>سایت ترفندهای اکسل - کامل و پیشرفته</title>
   <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
   
   <!-- SEO بهبود -->
-  <meta name="description" content="آموزش ترفندهای اکسل - فرمول‌های مالی، متنی و منطقی با مثال‌های عملی">
-  <meta name="keywords" content="اکسل, آموزش اکسل, فرمول اکسل, ترفند اکسل, مالی, متنی, منطقی">
+  <meta name="description" content="آموزش ترفندهای اکسل - فرمول‌های مالی، متنی، منطقی، آرایه‌ای و پیشرفته با مثال‌های عملی و ابزارهای کمکی">
+  <meta name="keywords" content="اکسل, آموزش اکسل, فرمول اکسل, ترفند اکسل, مالی, متنی, منطقی, آرایه‌ای, VBA">
   <meta name="author" content="علی برومند">
   
   <style>
@@ -55,7 +55,13 @@
       align-items: center;
     }
 
-    .theme-toggle {
+    .header-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .theme-toggle, .bookmarks-toggle {
       background: none;
       border: none;
       color: white;
@@ -66,7 +72,7 @@
       transition: background-color 0.3s ease;
     }
 
-    .theme-toggle:hover {
+    .theme-toggle:hover, .bookmarks-toggle:hover {
       background-color: rgba(255,255,255,0.1);
     }
 
@@ -107,6 +113,7 @@
     .search-box {
       margin: 20px 0;
       text-align: center;
+      position: relative;
     }
 
     .search-box input {
@@ -122,6 +129,54 @@
 
     .search-box input:focus {
       border-color: #005ea3;
+    }
+
+    .search-history {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 400px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .dark-mode .search-history {
+      background: #2d2d2d;
+      border-color: #555;
+    }
+
+    .search-history.show {
+      display: block;
+    }
+
+    .search-history div {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .dark-mode .search-history div {
+      border-bottom-color: #444;
+    }
+
+    .search-history div:hover {
+      background: #f5f5f5;
+    }
+
+    .dark-mode .search-history div:hover {
+      background: #3a3a3a;
+    }
+
+    .search-history div:last-child {
+      border-bottom: none;
     }
 
     /* منوی کشویی ترفندها */
@@ -177,7 +232,7 @@
     /* کانتینر اصلی */
     main {
       flex-grow: 1;
-      max-width: 900px;
+      max-width: 1000px;
       margin: 35px auto 50px;
       background: white;
       padding: 28px 32px 36px;
@@ -203,11 +258,34 @@
       border-radius: 8px;
       padding: 15px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
     }
 
     .formula-container:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .bookmark-btn {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.3s ease, transform 0.2s ease;
+    }
+
+    .bookmark-btn:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .bookmark-btn.bookmarked {
+      opacity: 1;
+      color: #ffd700;
     }
 
     .formula {
@@ -225,6 +303,7 @@
       cursor: pointer;
       position: relative;
       transition: all 0.3s ease;
+      margin-right: 30px;
     }
 
     .formula:hover {
@@ -273,6 +352,23 @@
 
     .btn-secondary:hover {
       background: #545b62;
+    }
+
+    .btn-success {
+      background: #28a745;
+    }
+
+    .btn-success:hover {
+      background: #218838;
+    }
+
+    .btn-warning {
+      background: #ffc107;
+      color: #212529;
+    }
+
+    .btn-warning:hover {
+      background: #e0a800;
     }
 
     .desc {
@@ -358,6 +454,185 @@
       background: #218838;
     }
 
+    /* ابزارهای ویژه */
+    .tool-section {
+      background: #f8f9fa;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+
+    .dark-mode .tool-section {
+      background: #2d2d2d;
+      border-color: #444;
+    }
+
+    .tool-section h3 {
+      color: #005ea3;
+      margin-top: 0;
+      border-bottom: 2px solid #0078d7;
+      padding-bottom: 10px;
+    }
+
+    .dark-mode .tool-section h3 {
+      color: #4da8ff;
+      border-bottom-color: #4da8ff;
+    }
+
+    .calculator input, .formula-builder select, .formula-builder input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-family: 'Vazir', monospace;
+    }
+
+    .dark-mode .calculator input, 
+    .dark-mode .formula-builder select, 
+    .dark-mode .formula-builder input {
+      background: #3a3a3a;
+      border-color: #555;
+      color: #fff;
+    }
+
+    .quiz-btn {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      background: #e9ecef;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .dark-mode .quiz-btn {
+      background: #3a3a3a;
+      border-color: #555;
+      color: #fff;
+    }
+
+    .quiz-btn:hover {
+      background: #dae0e5;
+    }
+
+    .dark-mode .quiz-btn:hover {
+      background: #4a4a4a;
+    }
+
+    .quiz-btn.correct {
+      background: #d4edda;
+      border-color: #c3e6cb;
+    }
+
+    .quiz-btn.incorrect {
+      background: #f8d7da;
+      border-color: #f5c6cb;
+    }
+
+    .video-placeholder {
+      background: #e9ecef;
+      border: 2px dashed #6c757d;
+      border-radius: 8px;
+      padding: 40px 20px;
+      text-align: center;
+      color: #6c757d;
+    }
+
+    .dark-mode .video-placeholder {
+      background: #3a3a3a;
+      border-color: #555;
+      color: #ccc;
+    }
+
+    .challenge {
+      background: #e7f3ff;
+      border: 2px solid #b3d9ff;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+    }
+
+    .dark-mode .challenge {
+      background: #2a3a4a;
+      border-color: #3a5a7a;
+    }
+
+    /* نشان‌ها */
+    .bookmarks-panel {
+      position: fixed;
+      top: 0;
+      left: -400px;
+      width: 380px;
+      height: 100vh;
+      background: white;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+      z-index: 2000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .dark-mode .bookmarks-panel {
+      background: #2d2d2d;
+    }
+
+    .bookmarks-panel.show {
+      left: 0;
+    }
+
+    .bookmarks-panel h3 {
+      color: #005ea3;
+      border-bottom: 2px solid #0078d7;
+      padding-bottom: 10px;
+    }
+
+    .dark-mode .bookmarks-panel h3 {
+      color: #4da8ff;
+      border-bottom-color: #4da8ff;
+    }
+
+    .bookmark-item {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px;
+      margin: 8px 0;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .dark-mode .bookmark-item {
+      background: #3a3a3a;
+      border-color: #555;
+    }
+
+    .bookmark-item:hover {
+      background: #e9ecef;
+    }
+
+    .dark-mode .bookmark-item:hover {
+      background: #4a4a4a;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1999;
+    }
+
+    .overlay.show {
+      display: block;
+    }
+
     /* درباره ما و تماس با ما */
     #about p, #home p {
       font-size: 17px;
@@ -372,7 +647,7 @@
     }
 
     #home {
-      height: 60vh;
+      min-height: 60vh;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -486,18 +761,63 @@
     .hidden {
       display: none !important;
     }
+
+    /* پیشنهادات هوشمند */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .suggestion-tag {
+      background: #e3f2fd;
+      border: 1px solid #bbdefb;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dark-mode .suggestion-tag {
+      background: #2a3a4a;
+      border-color: #3a5a7a;
+    }
+
+    .suggestion-tag:hover {
+      background: #bbdefb;
+      transform: translateY(-1px);
+    }
+
+    .dark-mode .suggestion-tag:hover {
+      background: #3a5a7a;
+    }
   </style>
 </head>
 <body>
 
+<!-- پنل نشان‌ها -->
+<div class="overlay" id="overlay"></div>
+<div class="bookmarks-panel" id="bookmarksPanel">
+  <h3>📑 فرمول‌های نشان شده</h3>
+  <div id="bookmarksList"></div>
+  <button class="btn" onclick="clearBookmarks()" style="margin-top: 20px; width: 100%;">پاک کردن همه نشان‌ها</button>
+</div>
+
 <header>
   <span>سایت ترفندهای اکسل</span>
-  <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  <div class="header-controls">
+    <button class="bookmarks-toggle" onclick="toggleBookmarks()">📑</button>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
 </header>
 
 <nav>
   <a href="#home" class="nav-link">خانه</a>
   <button id="tipsBtn" aria-haspopup="true" aria-expanded="false">ترفندها ▼</button>
+  <a href="#tools" class="nav-link">ابزارها</a>
+  <a href="#quiz" class="nav-link">آزمون</a>
   <a href="#about" class="nav-link">درباره ما</a>
   <a href="#contact" class="nav-link">تماس با ما</a>
 
@@ -507,13 +827,26 @@
     <a href="#tips-logical" class="dropdown-link" role="menuitem">منطقی</a>
     <a href="#tips-date" class="dropdown-link" role="menuitem">تاریخ و زمان</a>
     <a href="#tips-lookup" class="dropdown-link" role="menuitem">جستجو و مرجع</a>
+    <a href="#tips-array" class="dropdown-link" role="menuitem">آرایه‌ای</a>
+    <a href="#tips-engineering" class="dropdown-link" role="menuitem">مهندسی</a>
   </div>
 </nav>
 
 <main>
   <!-- باکس جستجو -->
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="جستجوی ترفندها... (مثلاً: SUM, IF, VLOOKUP)">
+    <input type="text" id="searchInput" placeholder="جستجوی ترفندها... (مثلاً: SUM, IF, VLOOKUP)" onfocus="showSearchHistory()">
+    <div class="search-history" id="searchHistory"></div>
+  </div>
+
+  <!-- پیشنهادات هوشمند -->
+  <div class="suggestions" id="suggestions">
+    <div class="suggestion-tag" onclick="searchThis('VLOOKUP')">VLOOKUP</div>
+    <div class="suggestion-tag" onclick="searchThis('SUMIF')">SUMIF</div>
+    <div class="suggestion-tag" onclick="searchThis('INDEX')">INDEX</div>
+    <div class="suggestion-tag" onclick="searchThis('MATCH')">MATCH</div>
+    <div class="suggestion-tag" onclick="searchThis('FILTER')">FILTER</div>
+    <div class="suggestion-tag" onclick="searchThis('XLOOKUP')">XLOOKUP</div>
   </div>
 
   <section id="home" class="active" tabindex="0" aria-label="صفحه خانه">
@@ -529,14 +862,103 @@
           📥 دانلود فایل نمونه اکسل
         </a>
       </div>
+
+      <!-- چالش هفتگی -->
+      <div class="tool-section">
+        <h3>🏆 چالش هفتگی</h3>
+        <div class="challenge">
+          <p><strong>چالش این هفته:</strong> چگونه می‌توان میانگین 10 سلول را بدون استفاده از تابع AVERAGE محاسبه کرد؟</p>
+          <button class="btn btn-warning" onclick="showChallengeSolution()">نمایش راه‌حل</button>
+          <div id="challengeSolution" style="display: none; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+            <p><strong>راه‌حل:</strong> از فرمول <code>=SUM(A1:A10)/COUNT(A1:A10)</code> استفاده کنید.</p>
+            <p>این فرمول مجموع سلول‌ها را بر تعداد آنها تقسیم می‌کند.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ابزارهای ویژه -->
+  <section id="tools" tabindex="0" aria-label="ابزارهای ویژه">
+    <h2>🛠️ ابزارهای ویژه</h2>
+
+    <!-- ماشین حساب فرمول‌ها -->
+    <div class="tool-section">
+      <h3>🧮 ماشین حساب فرمول‌ها</h3>
+      <div class="calculator">
+        <input type="text" id="formulaInput" placeholder="مثال: 5+3*2 یا SUM(10,20,30)" dir="ltr">
+        <button class="btn" onclick="calculateFormula()">محاسبه</button>
+        <div id="calcResult" style="margin-top: 15px; padding: 10px; background: #e9ecef; border-radius: 5px; font-family: monospace;"></div>
+      </div>
+    </div>
+
+    <!-- فرمول‌ساز هوشمند -->
+    <div class="tool-section">
+      <h3>🔧 فرمول‌ساز هوشمند</h3>
+      <div class="formula-builder">
+        <select id="functionType" onchange="updateBuilderOptions()">
+          <option value="">-- انتخاب نوع تابع --</option>
+          <option value="math">ریاضی</option>
+          <option value="text">متنی</option>
+          <option value="logical">منطقی</option>
+          <option value="date">تاریخ و زمان</option>
+        </select>
+        <div id="builderOptions" style="margin: 15px 0;"></div>
+        <button class="btn btn-success" onclick="generateFormula()">ساخت فرمول</button>
+        <div id="builderResult" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+
+    <!-- آموزش تصویری -->
+    <div class="tool-section">
+      <h3>🎬 آموزش تصویری</h3>
+      <div class="video-placeholder">
+        <p>🎥 آموزش‌های ویدیویی به زودی اضافه خواهند شد...</p>
+        <p style="font-size: 14px; margin-top: 10px;">آموزش نحوه استفاده از فرمول‌های پیشرفته در اکسل</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- آزمون و کوئیز -->
+  <section id="quiz" tabindex="0" aria-label="آزمون و کوئیز">
+    <h2>📝 آزمون دانش اکسل</h2>
+
+    <div class="tool-section">
+      <h3>🧪 آزمون سریع</h3>
+      <div class="quiz">
+        <div class="question">
+          <p><strong>سوال 1:</strong> خروجی فرمول <code>=SUM(5,3,2)</code> چیست؟</p>
+          <button class="quiz-btn" onclick="checkAnswer(1, 10, this)">10</button>
+          <button class="quiz-btn" onclick="checkAnswer(1, 8, this)">8</button>
+          <button class="quiz-btn" onclick="checkAnswer(1, 15, this)">15</button>
+        </div>
+
+        <div class="question">
+          <p><strong>سوال 2:</strong> کدام تابع برای جستجوی عمودی استفاده می‌شود؟</p>
+          <button class="quiz-btn" onclick="checkAnswer(2, 'HLOOKUP', this)">HLOOKUP</button>
+          <button class="quiz-btn" onclick="checkAnswer(2, 'VLOOKUP', this)">VLOOKUP</button>
+          <button class="quiz-btn" onclick="checkAnswer(2, 'XLOOKUP', this)">XLOOKUP</button>
+        </div>
+
+        <div class="question">
+          <p><strong>سوال 3:</strong> فرمول <code>=IF(A1>10, "بزرگ", "کوچک")</code> چه کاری انجام می‌دهد؟</p>
+          <button class="quiz-btn" onclick="checkAnswer(3, 'مقایسه مقدار', this)">مقایسه مقدار</button>
+          <button class="quiz-btn" onclick="checkAnswer(3, 'جمع اعداد', this)">جمع اعداد</button>
+          <button class="quiz-btn" onclick="checkAnswer(3, 'اتصال متن', this)">اتصال متن</button>
+        </div>
+      </div>
+
+      <div id="quizResult" style="margin-top: 20px; text-align: center; font-size: 18px; font-weight: bold;"></div>
+      <button class="btn" onclick="resetQuiz()" style="margin-top: 15px; display: none;" id="resetQuizBtn">آزمون مجدد</button>
     </div>
   </section>
 
   <!-- مالی -->
   <section id="tips-financial" tabindex="0" aria-label="ترفندهای مالی">
-    <h2>ترفندهای مالی</h2>
+    <h2>💰 ترفندهای مالی</h2>
     
     <div class="formula-container">
+      <button class="bookmark-btn" onclick="toggleBookmark(this)">🔖</button>
       <div class="formula" onclick="copyFormula(this)">
         =SUM(A1:A10)
         <span class="copy-btn">کپی</span>
@@ -558,6 +980,7 @@
     </div>
 
     <div class="formula-container">
+      <button class="bookmark-btn" onclick="toggleBookmark(this)">🔖</button>
       <div class="formula" onclick="copyFormula(this)">
         =PMT(نرخ_سود, دوره‌ها, مبلغ_وام)
         <span class="copy-btn">کپی</span>
@@ -574,305 +997,19 @@
       </div>
     </div>
 
-    <!-- بقیه فرمول‌های مالی -->
-  </section>
-
-  <!-- متنی -->
-  <section id="tips-text" tabindex="0" aria-label="ترفندهای متنی">
-    <h2>ترفندهای متنی</h2>
-    
     <div class="formula-container">
+      <button class="bookmark-btn" onclick="toggleBookmark(this)">🔖</button>
       <div class="formula" onclick="copyFormula(this)">
-        =CONCATENATE(A1, " ", B1)
-        <span class="copy-btn">کپی</span>
-      </div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <button class="btn btn-secondary" onclick="rateFormula(this)">امتیاز دهید</button>
-      <div class="desc">
-        ترکیب متن‌های سلول A1 و B1 با فاصله بین آنها.
-      </div>
-      <div class="rating">
-        <span>امتیاز: </span>
-        <span class="stars" onclick="rateItem(this)">★★★★★</span>
-        <span>(12 رای)</span>
-      </div>
-    </div>
-
-    <!-- بقیه فرمول‌های متنی -->
-  </section>
-
-  <!-- منطقی -->
-  <section id="tips-logical" tabindex="0" aria-label="ترفندهای منطقی">
-    <h2>ترفندهای منطقی</h2>
-    
-    <div class="formula-container">
-      <div class="formula" onclick="copyFormula(this)">
-        =IF(A1>10, "بزرگتر", "کوچکتر")
-        <span class="copy-btn">کپی</span>
-      </div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <button class="btn btn-secondary" onclick="rateFormula(this)">امتیاز دهید</button>
-      <div class="desc">
-        بررسی شرط و نمایش نتیجه بر اساس آن.
-      </div>
-      <div class="rating">
-        <span>امتیاز: </span>
-        <span class="stars" onclick="rateItem(this)">★★★★★</span>
-        <span>(20 رای)</span>
-      </div>
-      <div class="example">
-        <h4>مثال عملی:</h4>
-        <p>برای تعیین وضعیت نمره: <code>=IF(A1>=10, "قبول", "مردود")</code></p>
-      </div>
-    </div>
-
-    <!-- بقیه فرمول‌های منطقی -->
-  </section>
-
-  <!-- تاریخ و زمان -->
-  <section id="tips-date" tabindex="0" aria-label="ترفندهای تاریخ و زمان">
-    <h2>ترفندهای تاریخ و زمان</h2>
-    
-    <div class="formula-container">
-      <div class="formula" onclick="copyFormula(this)">
-        =TODAY()
+        =FV(نرخ_سود, دوره‌ها, پرداخت, [مبلغ_اولیه])
         <span class="copy-btn">کپی</span>
       </div>
       <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
       <div class="desc">
-        تاریخ امروز را نمایش می‌دهد.
+        ارزش آینده یک سرمایه‌گذاری با نرخ سود، تعداد دوره‌ها و پرداخت‌های مشخص را محاسبه می‌کند.
       </div>
     </div>
 
     <div class="formula-container">
+      <button class="bookmark-btn" onclick="toggleBookmark(this)">🔖</button>
       <div class="formula" onclick="copyFormula(this)">
-        =DATEDIF(A1, B1, "d")
-        <span class="copy-btn">کپی</span>
-      </div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        تفاوت بین دو تاریخ را بر اساس واحد مشخص شده محاسبه می‌کند.
-      </div>
-    </div>
-  </section>
-
-  <!-- جستجو و مرجع -->
-  <section id="tips-lookup" tabindex="0" aria-label="ترفندهای جستجو و مرجع">
-    <h2>ترفندهای جستجو و مرجع</h2>
-    
-    <div class="formula-container">
-      <div class="formula" onclick="copyFormula(this)">
-        =VLOOKUP(A1, B1:C10, 2, FALSE)
-        <span class="copy-btn">کپی</span>
-      </div>
-      <button class="btn" onclick="toggleDesc(this)">نمایش توضیحات</button>
-      <div class="desc">
-        جستجوی عمودی مقدار در یک جدول و بازگرداندن مقدار مربوطه.
-      </div>
-    </div>
-  </section>
-
-  <!-- درباره ما -->
-  <section id="about" tabindex="0" aria-label="درباره ما">
-    <h2>درباره ما</h2>
-    <p>
-      این وب‌سایت به هدف ارتقاء دانش و مهارت کاربران در زمینه نرم‌افزار اکسل طراحی شده است. ما به دنبال ارائه محتواهای ساده، کاربردی و قابل فهم هستیم تا کاربران با هر سطحی بتوانند از آن بهره‌مند شوند.
-    </p>
-    <p>
-      امیدواریم این سایت بتواند به شما در یادگیری و استفاده بهتر از اکسل کمک کند و تجربه کاربری خوبی برایتان فراهم آورد.
-    </p>
-  </section>
-
-  <!-- تماس با ما -->
-  <section id="contact" tabindex="0" aria-label="تماس با ما">
-    <h2>تماس با ما</h2>
-    <form id="contactForm" onsubmit="return submitForm(event)">
-      <label for="name">نام شما:</label>
-      <input type="text" id="name" name="name" required autocomplete="name" />
-
-      <label for="email">ایمیل شما:</label>
-      <input type="text" id="email" name="email" required autocomplete="email" />
-
-      <label for="message">پیام شما:</label>
-      <textarea id="message" name="message" required></textarea>
-
-      <button type="submit">ارسال پیام</button>
-    </form>
-    <div id="formResponse" role="alert" aria-live="polite"></div>
-  </section>
-</main>
-
-<footer>
-  <p>طراحی و توسعه: علی برومند</p>
-  <p>تعداد بازدیدکنندگان: <span id="visitorCount">1</span></p>
-</footer>
-
-<script>
-  // --- متغیرهای عمومی ---
-  const sections = document.querySelectorAll('main > section');
-  const navLinks = document.querySelectorAll('nav .nav-link, .dropdown-link');
-  const tipsBtn = document.getElementById('tipsBtn');
-  const tipsDropdown = document.getElementById('tipsDropdown');
-  const searchInput = document.getElementById('searchInput');
-  let visitorCount = localStorage.getItem('visitorCount') || 1;
-
-  // --- مقداردهی اولیه ---
-  document.addEventListener('DOMContentLoaded', function() {
-    // افزایش شمارنده بازدیدکنندگان
-    visitorCount = parseInt(visitorCount) + 1;
-    localStorage.setItem('visitorCount', visitorCount);
-    document.getElementById('visitorCount').textContent = visitorCount;
-
-    // بازیابی حالت تاریک
-    if (localStorage.getItem('darkMode') === 'true') {
-      document.body.classList.add('dark-mode');
-      document.querySelector('.theme-toggle').textContent = '☀️';
-    }
-  });
-
-  // --- منوی کشویی ترفندها ---
-  tipsBtn.addEventListener('click', () => {
-    const expanded = tipsBtn.getAttribute('aria-expanded') === 'true';
-    tipsBtn.setAttribute('aria-expanded', String(!expanded));
-    tipsDropdown.classList.toggle('show');
-  });
-
-  // بستن منو اگر کلیک بیرون بود
-  document.addEventListener('click', e => {
-    if (!tipsBtn.contains(e.target) && !tipsDropdown.contains(e.target)) {
-      tipsDropdown.classList.remove('show');
-      tipsBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  // --- تغییر بخش فعال ---
-  navLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const targetId = link.getAttribute('href').substring(1);
-
-      sections.forEach(sec => {
-        if (sec.id === targetId) {
-          sec.classList.add('active');
-          sec.focus();
-        } else {
-          sec.classList.remove('active');
-        }
-      });
-
-      tipsDropdown.classList.remove('show');
-      tipsBtn.setAttribute('aria-expanded', 'false');
-      window.scrollTo({top:0, behavior:'smooth'});
-    });
-  });
-
-  // --- کپی کردن فرمول ---
-  function copyFormula(element) {
-    const text = element.textContent.replace('کپی', '').trim();
-    navigator.clipboard.writeText(text).then(() => {
-      // نمایش پیام موفقیت
-      const originalText = element.textContent;
-      element.textContent = 'کپی شد! ✓';
-      element.style.background = '#d4edda';
-      
-      setTimeout(() => {
-        element.textContent = originalText;
-        element.style.background = '';
-      }, 1500);
-    }).catch(() => {
-      alert('خطا در کپی کردن فرمول');
-    });
-  }
-
-  // --- نمایش/پنهان توضیحات ---
-  function toggleDesc(button) {
-    const desc = button.nextElementSibling;
-    if (desc.style.display === 'block') {
-      desc.style.display = 'none';
-      button.textContent = 'نمایش توضیحات';
-    } else {
-      desc.style.display = 'block';
-      button.textContent = 'پنهان کردن توضیحات';
-    }
-  }
-
-  // --- سیستم امتیازدهی ---
-  function rateFormula(button) {
-    const formulaContainer = button.closest('.formula-container');
-    const stars = formulaContainer.querySelector('.stars');
-    const ratingText = formulaContainer.querySelector('.rating span:last-child');
-    
-    const currentRating = prompt('به این فرمول از 1 تا 5 چه امتیازی می‌دهید؟');
-    if (currentRating && currentRating >= 1 && currentRating <= 5) {
-      const fullStars = '★'.repeat(currentRating);
-      const emptyStars = '☆'.repeat(5 - currentRating);
-      stars.textContent = fullStars + emptyStars;
-      
-      // افزایش تعداد رای‌ها (شبیه‌سازی)
-      const currentVotes = parseInt(ratingText.textContent.match(/\d+/)[0]) + 1;
-      ratingText.textContent = `(${currentVotes} رای)`;
-      
-      alert('ممنون از امتیاز شما!');
-    }
-  }
-
-  function rateItem(starsElement) {
-    alert('برای امتیازدهی روی دکمه "امتیاز دهید" کلیک کنید');
-  }
-
-  // --- جستجو ---
-  searchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase().trim();
-    const allContainers = document.querySelectorAll('.formula-container');
-    
-    allContainers.forEach(container => {
-      const formulaText = container.querySelector('.formula').textContent.toLowerCase();
-      const descText = container.querySelector('.desc').textContent.toLowerCase();
-      
-      if (formulaText.includes(searchTerm) || descText.includes(searchTerm)) {
-        container.classList.remove('hidden');
-      } else {
-        container.classList.add('hidden');
-      }
-    });
-  });
-
-  // --- حالت تاریک ---
-  function toggleTheme() {
-    const body = document.body;
-    const themeToggle = document.querySelector('.theme-toggle');
-    
-    body.classList.toggle('dark-mode');
-    
-    if (body.classList.contains('dark-mode')) {
-      themeToggle.textContent = '☀️';
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      themeToggle.textContent = '🌙';
-      localStorage.setItem('darkMode', 'false');
-    }
-  }
-
-  // --- دانلود فایل نمونه ---
-  function downloadSample() {
-    alert('در نسخه بعدی، فایل نمونه اکسل برای دانلود قرار خواهد گرفت');
-    // در آینده می‌توانید یک فایل اکسل واقعی پیوند دهید
-  }
-
-  // --- ارسال فرم تماس ---
-  function submitForm(e) {
-    e.preventDefault();
-    const responseDiv = document.getElementById('formResponse');
-    responseDiv.textContent = '';
-    
-    setTimeout(() => {
-      responseDiv.textContent = 'پیام شما با موفقیت ارسال شد. ممنون از تماس شما!';
-      document.getElementById('contactForm').reset();
-    }, 800);
-    
-    return false;
-  }
-</script>
-
-</body>
-</html>
+        =NPV(نرخ_تنزیل, جریان_نقد
